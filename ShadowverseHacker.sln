@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.539
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShadowverseHacker", "ShadowverseHacker\ShadowverseHacker.csproj", "{FE6A50D8-2126-42C6-82EC-65857C66A752}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FE6A50D8-2126-42C6-82EC-65857C66A752}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE6A50D8-2126-42C6-82EC-65857C66A752}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE6A50D8-2126-42C6-82EC-65857C66A752}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE6A50D8-2126-42C6-82EC-65857C66A752}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {688AF1DD-67D4-4D50-BA51-A4839A9723B2}
+	EndGlobalSection
+EndGlobal
