@@ -13,7 +13,7 @@ namespace ShadowverseHacker
     {
         static StableRandomClone random;
 
-        static void UpdateRandom()
+        public static void UpdateRandom()
         {
             Predictor.random = new StableRandomClone();
         }
@@ -112,9 +112,9 @@ namespace ShadowverseHacker
             return new List<BattleCardBase>();
         }
 
-        public static int[] RandomArray(Skill_random_array sk)
+        public static int[] RandomArray(Skill_random_array sk, Boolean flushRandom)
         {
-            UpdateRandom();
+            if (flushRandom) UpdateRandom();
             int size = sk.OptionValue.GetInt(SkillFilterCreator.ContentKeyword.random_range, -1);
             int max = sk.OptionValue.GetInt(SkillFilterCreator.ContentKeyword.max, -1);
             int sum;
@@ -156,9 +156,9 @@ namespace ShadowverseHacker
             return arr;
         }
 
-        public static IEnumerable<BattleCardBase>  RandomSelect(ISkillSelectFilter filter, IEnumerable<BattleCardBase> cards, SkillOptionValue option, SkillConditionCheckerOption checkerOption)
+        public static IEnumerable<BattleCardBase>  RandomSelect(ISkillSelectFilter filter, IEnumerable<BattleCardBase> cards, SkillOptionValue option, SkillConditionCheckerOption checkerOption, Boolean flushRandom)
         {
-            UpdateRandom();
+            if (flushRandom) UpdateRandom();
             int count = filter.CalcCount(option);
             cards = from x in cards
                     orderby x.Index
@@ -175,9 +175,9 @@ namespace ShadowverseHacker
             yield break;
         }
 
-        public static IEnumerable<BattleCardBase> IdNoDuplicateRandomSelect(ISkillSelectFilter filter, IEnumerable<BattleCardBase> cards, SkillOptionValue option, SkillConditionCheckerOption checkerOption)
+        public static IEnumerable<BattleCardBase> IdNoDuplicateRandomSelect(ISkillSelectFilter filter, IEnumerable<BattleCardBase> cards, SkillOptionValue option, SkillConditionCheckerOption checkerOption, Boolean flushRandom)
         {
-            UpdateRandom();
+            if (flushRandom) UpdateRandom();
             int count = filter.CalcCount(option);
             cards = from x in cards
                     orderby x.Index
@@ -196,9 +196,9 @@ namespace ShadowverseHacker
             yield break;
         }
 
-        public static IEnumerable<BattleCardBase> CostNoDuplicateRandomSelect(ISkillSelectFilter filter, IEnumerable<BattleCardBase> cards, SkillOptionValue option, SkillConditionCheckerOption checkerOption)
+        public static IEnumerable<BattleCardBase> CostNoDuplicateRandomSelect(ISkillSelectFilter filter, IEnumerable<BattleCardBase> cards, SkillOptionValue option, SkillConditionCheckerOption checkerOption, Boolean flushRandom)
         {
-            UpdateRandom();
+            if (flushRandom) UpdateRandom();
             int count = filter.CalcCount(option);
             cards = from x in cards
                     orderby x.Index

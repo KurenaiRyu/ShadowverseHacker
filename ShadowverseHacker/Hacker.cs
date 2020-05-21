@@ -151,13 +151,17 @@ namespace ShadowverseHacker
                         }
                     }
                     
+                    Predictor.UpdateRandom();
                     foreach (SkillBase sk in card.Skills)
                     {
-                        sb.Append(" >技能类型: " + sk.GetType() + "\n");
-                        sb.Append(" >过滤器类型: " + sk.ApplyFilterCollection.ApplySelectFilter.GetType() + "\n");
+                        if (debug)
+                        {
+                            sb.Append(" >技能类型: " + sk.GetType() + "\n");
+                            sb.Append(" >过滤器类型: " + sk.ApplyFilterCollection.ApplySelectFilter.GetType() + "\n");
+                        }
                         if (sk is Skill_random_array)
                         {
-                            string xyz = String.Join(", ", Predictor.RandomArray(sk as Skill_random_array));
+                            string xyz = String.Join(", ", Predictor.RandomArray(sk as Skill_random_array, false));
                             sb.Append($" >XYZ: [{xyz}]\n");
                         }
 
@@ -166,15 +170,15 @@ namespace ShadowverseHacker
                         if (sk.ApplyFilterCollection.ApplySelectFilter is SkillRandomSelectFilter)
                         {
                             targets = sk.ApplyFilterCollection.Filtering(pair, checker, sk.OptionValue).Cast<BattleCardBase>().ToList<BattleCardBase>();
-                            targets = Predictor.RandomSelect(sk.ApplyFilterCollection.ApplySelectFilter, targets, sk.OptionValue, checker).ToList();
+                            targets = Predictor.RandomSelect(sk.ApplyFilterCollection.ApplySelectFilter, targets, sk.OptionValue, checker, false).ToList();
                         } else if (sk.ApplyFilterCollection.ApplySelectFilter is SkillIdNoDuplicationRandomSelectFilter)
                         {
                             targets = sk.ApplyFilterCollection.Filtering(pair, checker, sk.OptionValue).Cast<BattleCardBase>().ToList<BattleCardBase>();
-                            targets = Predictor.IdNoDuplicateRandomSelect(sk.ApplyFilterCollection.ApplySelectFilter, targets, sk.OptionValue, checker).ToList();
+                            targets = Predictor.IdNoDuplicateRandomSelect(sk.ApplyFilterCollection.ApplySelectFilter, targets, sk.OptionValue, checker, false).ToList();
                         } else if (sk.ApplyFilterCollection.ApplySelectFilter is SkillCostNoDuplicationRandomSelectFilter)
                         {
                             targets = sk.ApplyFilterCollection.Filtering(pair, checker, sk.OptionValue).Cast<BattleCardBase>().ToList<BattleCardBase>();
-                            targets = Predictor.CostNoDuplicateRandomSelect(sk.ApplyFilterCollection.ApplySelectFilter, targets, sk.OptionValue, checker).ToList();
+                            targets = Predictor.CostNoDuplicateRandomSelect(sk.ApplyFilterCollection.ApplySelectFilter, targets, sk.OptionValue, checker, false).ToList();
                         }
                         else
                         {
@@ -187,18 +191,21 @@ namespace ShadowverseHacker
                             if (c.IsUnit) sb.Append($"({c.Cost},{c.Atk},{c.Life})");
                             sb.AppendLine();
                         }
-
-                        sb.Append("---\n");
                     }
 
+                    Predictor.UpdateRandom();
                     sb.Append("进化效果预测:\n");
                     foreach (SkillBase sk in card.EvolutionSkills)
                     {
-                        sb.Append(" >技能类型: " + sk.GetType() + "\n");
-                        sb.Append(" >过滤器类型: " + sk.ApplyFilterCollection.ApplySelectFilter.GetType() + "\n");
+                        if (debug)
+                        {
+                            sb.Append(" >技能类型: " + sk.GetType() + "\n");
+                            sb.Append(" >过滤器类型: " + sk.ApplyFilterCollection.ApplySelectFilter.GetType() + "\n");
+                        }
+
                         if (sk is Skill_random_array)
                         {
-                            string xyz = String.Join(", ", Predictor.RandomArray(sk as Skill_random_array));
+                            string xyz = String.Join(", ", Predictor.RandomArray(sk as Skill_random_array, false));
                             sb.Append($" >XYZ: [{xyz}]\n");
                         }
 
@@ -207,17 +214,17 @@ namespace ShadowverseHacker
                         if (sk.ApplyFilterCollection.ApplySelectFilter is SkillRandomSelectFilter)
                         {
                             targets = sk.ApplyFilterCollection.Filtering(pair, checker, sk.OptionValue).Cast<BattleCardBase>().ToList<BattleCardBase>();
-                            targets = Predictor.RandomSelect(sk.ApplyFilterCollection.ApplySelectFilter, targets, sk.OptionValue, checker).ToList();
+                            targets = Predictor.RandomSelect(sk.ApplyFilterCollection.ApplySelectFilter, targets, sk.OptionValue, checker, false).ToList();
                         }
                         else if (sk.ApplyFilterCollection.ApplySelectFilter is SkillIdNoDuplicationRandomSelectFilter)
                         {
                             targets = sk.ApplyFilterCollection.Filtering(pair, checker, sk.OptionValue).Cast<BattleCardBase>().ToList<BattleCardBase>();
-                            targets = Predictor.IdNoDuplicateRandomSelect(sk.ApplyFilterCollection.ApplySelectFilter, targets, sk.OptionValue, checker).ToList();
+                            targets = Predictor.IdNoDuplicateRandomSelect(sk.ApplyFilterCollection.ApplySelectFilter, targets, sk.OptionValue, checker, false).ToList();
                         }
                         else if (sk.ApplyFilterCollection.ApplySelectFilter is SkillCostNoDuplicationRandomSelectFilter)
                         {
                             targets = sk.ApplyFilterCollection.Filtering(pair, checker, sk.OptionValue).Cast<BattleCardBase>().ToList<BattleCardBase>();
-                            targets = Predictor.CostNoDuplicateRandomSelect(sk.ApplyFilterCollection.ApplySelectFilter, targets, sk.OptionValue, checker).ToList();
+                            targets = Predictor.CostNoDuplicateRandomSelect(sk.ApplyFilterCollection.ApplySelectFilter, targets, sk.OptionValue, checker, false).ToList();
                         }
                         else
                         {
