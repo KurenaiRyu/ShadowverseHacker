@@ -152,94 +152,11 @@ namespace ShadowverseHacker
                     }
                     
                     Predictor.UpdateRandom();
-                    foreach (SkillBase sk in card.Skills)
-                    {
-                        if (debug)
-                        {
-                            sb.Append(" >技能类型: " + sk.GetType() + "\n");
-                            sb.Append(" >过滤器类型: " + sk.ApplyFilterCollection.ApplySelectFilter.GetType() + "\n");
-                        }
-                        if (sk is Skill_random_array)
-                        {
-                            string xyz = String.Join(", ", Predictor.RandomArray(sk as Skill_random_array, false));
-                            sb.Append($" >XYZ: [{xyz}]\n");
-                        }
-
-                        List<BattleCardBase> targets = new List<BattleCardBase>();
-                        SkillConditionCheckerOption checker = new SkillConditionCheckerOption();
-                        if (sk.ApplyFilterCollection.ApplySelectFilter is SkillRandomSelectFilter)
-                        {
-                            targets = sk.ApplyFilterCollection.Filtering(pair, checker, sk.OptionValue).Cast<BattleCardBase>().ToList<BattleCardBase>();
-                            targets = Predictor.RandomSelect(sk.ApplyFilterCollection.ApplySelectFilter, targets, sk.OptionValue, checker, false).ToList();
-                        } else if (sk.ApplyFilterCollection.ApplySelectFilter is SkillIdNoDuplicationRandomSelectFilter)
-                        {
-                            targets = sk.ApplyFilterCollection.Filtering(pair, checker, sk.OptionValue).Cast<BattleCardBase>().ToList<BattleCardBase>();
-                            targets = Predictor.IdNoDuplicateRandomSelect(sk.ApplyFilterCollection.ApplySelectFilter, targets, sk.OptionValue, checker, false).ToList();
-                        } else if (sk.ApplyFilterCollection.ApplySelectFilter is SkillCostNoDuplicationRandomSelectFilter)
-                        {
-                            targets = sk.ApplyFilterCollection.Filtering(pair, checker, sk.OptionValue).Cast<BattleCardBase>().ToList<BattleCardBase>();
-                            targets = Predictor.CostNoDuplicateRandomSelect(sk.ApplyFilterCollection.ApplySelectFilter, targets, sk.OptionValue, checker, false).ToList();
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                        sb.Append(" >效果: \n");
-                        foreach (BattleCardBase c in targets)
-                        {
-                            sb.Append("   -" + Clean(c.BaseParameter.CardName));
-                            if (c.IsUnit) sb.Append($"({c.Cost},{c.Atk},{c.Life})");
-                            sb.AppendLine();
-                        }
-                    }
-
-                    Predictor.UpdateRandom();
-                    sb.Append("进化效果预测:\n");
-                    foreach (SkillBase sk in card.EvolutionSkills)
-                    {
-                        if (debug)
-                        {
-                            sb.Append(" >技能类型: " + sk.GetType() + "\n");
-                            sb.Append(" >过滤器类型: " + sk.ApplyFilterCollection.ApplySelectFilter.GetType() + "\n");
-                        }
-
-                        if (sk is Skill_random_array)
-                        {
-                            string xyz = String.Join(", ", Predictor.RandomArray(sk as Skill_random_array, false));
-                            sb.Append($" >XYZ: [{xyz}]\n");
-                        }
-
-                        List<BattleCardBase> targets = new List<BattleCardBase>();
-                        SkillConditionCheckerOption checker = new SkillConditionCheckerOption();
-                        if (sk.ApplyFilterCollection.ApplySelectFilter is SkillRandomSelectFilter)
-                        {
-                            targets = sk.ApplyFilterCollection.Filtering(pair, checker, sk.OptionValue).Cast<BattleCardBase>().ToList<BattleCardBase>();
-                            targets = Predictor.RandomSelect(sk.ApplyFilterCollection.ApplySelectFilter, targets, sk.OptionValue, checker, false).ToList();
-                        }
-                        else if (sk.ApplyFilterCollection.ApplySelectFilter is SkillIdNoDuplicationRandomSelectFilter)
-                        {
-                            targets = sk.ApplyFilterCollection.Filtering(pair, checker, sk.OptionValue).Cast<BattleCardBase>().ToList<BattleCardBase>();
-                            targets = Predictor.IdNoDuplicateRandomSelect(sk.ApplyFilterCollection.ApplySelectFilter, targets, sk.OptionValue, checker, false).ToList();
-                        }
-                        else if (sk.ApplyFilterCollection.ApplySelectFilter is SkillCostNoDuplicationRandomSelectFilter)
-                        {
-                            targets = sk.ApplyFilterCollection.Filtering(pair, checker, sk.OptionValue).Cast<BattleCardBase>().ToList<BattleCardBase>();
-                            targets = Predictor.CostNoDuplicateRandomSelect(sk.ApplyFilterCollection.ApplySelectFilter, targets, sk.OptionValue, checker, false).ToList();
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                        sb.Append(" >效果: \n");
-                        foreach (BattleCardBase c in targets)
-                        {
-                            sb.Append(Clean("   -" + c.BaseParameter.CardName));
-                            if (c.IsUnit) sb.Append($"({c.Cost},{c.Atk},{c.Life})");
-                            sb.AppendLine();
-                        }
-                        
-                        
-                    }
+                    Boolean directFlag = false;
+                    showPredict(directFlag, sb, card, pair, debug);
+                    sb.Append("----------dirct----------\n");
+                    directFlag = true;
+                    showPredict(directFlag, sb, card, pair, debug);
                 }
             } else
             {
@@ -258,6 +175,99 @@ namespace ShadowverseHacker
         public List<BattleCardBase> special()
         {
             return null;
+        }
+
+        public void showPredict(Boolean directFlag, StringBuilder sb, BattleCardBase card, BattlePlayerPair pair, Boolean debug)
+        {
+            
+            foreach (SkillBase sk in card.Skills)
+            {
+                if (debug)
+                {
+                    sb.Append(" >技能类型: " + sk.GetType() + "\n");
+                    sb.Append(" >过滤器类型: " + sk.ApplyFilterCollection.ApplySelectFilter.GetType() + "\n");
+                }
+                if (sk is Skill_random_array)
+                {
+                    string xyz = String.Join(", ", Predictor.RandomArray(sk as Skill_random_array, directFlag));
+                    sb.Append($" >XYZ: [{xyz}]\n");
+                }
+
+                List<BattleCardBase> targets = new List<BattleCardBase>();
+                SkillConditionCheckerOption checker = new SkillConditionCheckerOption();
+                if (sk.ApplyFilterCollection.ApplySelectFilter is SkillRandomSelectFilter)
+                {
+                    targets = sk.ApplyFilterCollection.Filtering(pair, checker, sk.OptionValue).Cast<BattleCardBase>().ToList<BattleCardBase>();
+                    targets = Predictor.RandomSelect(sk.ApplyFilterCollection.ApplySelectFilter, targets, sk.OptionValue, checker, directFlag).ToList();
+                } else if (sk.ApplyFilterCollection.ApplySelectFilter is SkillIdNoDuplicationRandomSelectFilter)
+                {
+                    targets = sk.ApplyFilterCollection.Filtering(pair, checker, sk.OptionValue).Cast<BattleCardBase>().ToList<BattleCardBase>();
+                    targets = Predictor.IdNoDuplicateRandomSelect(sk.ApplyFilterCollection.ApplySelectFilter, targets, sk.OptionValue, checker, directFlag).ToList();
+                } else if (sk.ApplyFilterCollection.ApplySelectFilter is SkillCostNoDuplicationRandomSelectFilter)
+                {
+                    targets = sk.ApplyFilterCollection.Filtering(pair, checker, sk.OptionValue).Cast<BattleCardBase>().ToList<BattleCardBase>();
+                    targets = Predictor.CostNoDuplicateRandomSelect(sk.ApplyFilterCollection.ApplySelectFilter, targets, sk.OptionValue, checker, directFlag).ToList();
+                }
+                else
+                {
+                    continue;
+                }
+                sb.Append(" >效果: \n");
+                foreach (BattleCardBase c in targets)
+                {
+                    sb.Append("   -" + Clean(c.BaseParameter.CardName));
+                    if (c.IsUnit) sb.Append($"({c.Cost},{c.Atk},{c.Life})");
+                    sb.AppendLine();
+                }
+            }
+
+            Predictor.UpdateRandom();
+            sb.Append("进化效果预测:\n");
+            foreach (SkillBase sk in card.EvolutionSkills)
+            {
+                if (debug)
+                {
+                    sb.Append(" >技能类型: " + sk.GetType() + "\n");
+                    sb.Append(" >过滤器类型: " + sk.ApplyFilterCollection.ApplySelectFilter.GetType() + "\n");
+                }
+
+                if (sk is Skill_random_array)
+                {
+                    string xyz = String.Join(", ", Predictor.RandomArray(sk as Skill_random_array, directFlag));
+                    sb.Append($" >XYZ: [{xyz}]\n");
+                }
+
+                List<BattleCardBase> targets = new List<BattleCardBase>();
+                SkillConditionCheckerOption checker = new SkillConditionCheckerOption();
+                if (sk.ApplyFilterCollection.ApplySelectFilter is SkillRandomSelectFilter)
+                {
+                    targets = sk.ApplyFilterCollection.Filtering(pair, checker, sk.OptionValue).Cast<BattleCardBase>().ToList<BattleCardBase>();
+                    targets = Predictor.RandomSelect(sk.ApplyFilterCollection.ApplySelectFilter, targets, sk.OptionValue, checker, directFlag).ToList();
+                }
+                else if (sk.ApplyFilterCollection.ApplySelectFilter is SkillIdNoDuplicationRandomSelectFilter)
+                {
+                    targets = sk.ApplyFilterCollection.Filtering(pair, checker, sk.OptionValue).Cast<BattleCardBase>().ToList<BattleCardBase>();
+                    targets = Predictor.IdNoDuplicateRandomSelect(sk.ApplyFilterCollection.ApplySelectFilter, targets, sk.OptionValue, checker, directFlag).ToList();
+                }
+                else if (sk.ApplyFilterCollection.ApplySelectFilter is SkillCostNoDuplicationRandomSelectFilter)
+                {
+                    targets = sk.ApplyFilterCollection.Filtering(pair, checker, sk.OptionValue).Cast<BattleCardBase>().ToList<BattleCardBase>();
+                    targets = Predictor.CostNoDuplicateRandomSelect(sk.ApplyFilterCollection.ApplySelectFilter, targets, sk.OptionValue, checker, directFlag).ToList();
+                }
+                else
+                {
+                    continue;
+                }
+                sb.Append(" >效果: \n");
+                foreach (BattleCardBase c in targets)
+                {
+                    sb.Append(Clean("   -" + c.BaseParameter.CardName));
+                    if (c.IsUnit) sb.Append($"({c.Cost},{c.Atk},{c.Life})");
+                    sb.AppendLine();
+                }
+                
+                
+            }
         }
     }
 }

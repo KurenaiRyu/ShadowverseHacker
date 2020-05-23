@@ -115,12 +115,12 @@ namespace ShadowverseHacker
         public static int[] RandomArray(Skill_random_array sk, Boolean flushRandom)
         {
             if (flushRandom) UpdateRandom();
-            int size = sk.OptionValue.GetInt(SkillFilterCreator.ContentKeyword.random_range, -1);
-            int max = sk.OptionValue.GetInt(SkillFilterCreator.ContentKeyword.max, -1);
+            int size = sk.OptionValue.GetInt(SkillFilterCreator.ContentKeyword.random_range, -1, true);
+            int max = sk.OptionValue.GetInt(SkillFilterCreator.ContentKeyword.max, -1, true);
             int sum;
             try
             {
-                sum = sk.OptionValue.GetInt(SkillFilterCreator.ContentKeyword.sum, -1);
+                sum = sk.OptionValue.GetInt(SkillFilterCreator.ContentKeyword.sum, -1, true);
             }
             catch (Exception e)
             {
