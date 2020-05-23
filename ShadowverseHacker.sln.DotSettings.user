@@ -5,4 +5,5 @@
   &lt;Assembly Path="D:\SteamLibrary\steamapps\common\Shadowverse\Shadowverse_Data\Managed\System.Xml.dll" /&gt;&#xD;
   &lt;Assembly Path="D:\SteamLibrary\steamapps\common\Shadowverse\Shadowverse_Data\Managed\mscorlib.dll" /&gt;&#xD;
   &lt;Assembly Path="D:\SteamLibrary\steamapps\common\Shadowverse\Shadowverse_Data\Managed\System.dll" /&gt;&#xD;
+  &lt;Assembly Path="D:\WorkSpace\sv\ShadowverseHacker\ShadowverseHacker\dll\Assembly-CSharp.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>
