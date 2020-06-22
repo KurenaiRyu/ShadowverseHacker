@@ -4,22 +4,22 @@ namespace ShadowverseHacker
 {
     public class Loader
     {
-        public static void Init()
+        public static void Load()
         {
-            if (Load != null)
+            if (loadGameObject != null)
             {
-                Object.Destroy(Load);                
+                UnityEngine.Object.Destroy(loadGameObject);                
             }
-            Loader.Load = new GameObject();
-            Loader.Load.AddComponent<Hacker>();
-            UnityEngine.Object.DontDestroyOnLoad(Loader.Load);
+            Loader.loadGameObject = new GameObject();
+            Loader.loadGameObject.AddComponent<Hacker>();
+            UnityEngine.Object.DontDestroyOnLoad(Loader.loadGameObject);
         }
 
         public static void Unload()
         {
-            Object.DestroyImmediate(Load);
+            UnityEngine.Object.DestroyImmediate(loadGameObject);
         }
 
-        private static GameObject Load;
+        private static GameObject loadGameObject;
     }
 }
